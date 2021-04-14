@@ -1,0 +1,50 @@
+@media screen and (min-width: 500px) {
+    #contentarea1 {
+        background-color: aquamarine;
+        margin-right: 40px;
+        margin-left: 40px;
+        height: 350px;
+        width: available;
+
+        text-align: center;
+    }
+}
+
+
+@media screen and (max-width: 500px) {
+    #contentarea1{
+        display: none;
+    }
+}
+
+.img {
+    max-height: 350px;
+    max-width: 400px;
+}
+
+div#contentarea2 {
+    background-color: goldenrod;
+    margin-right: 10px;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    position: relative;
+}
+
+div#contentarea3 {
+    background-color: aqua;
+    margin-right: 10px;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    position: relative;
+}
+
+div#contentarea4 {
+    background-color: darkorange;
+    margin-right: 10px;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    position: relative;
+}

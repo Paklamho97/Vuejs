@@ -1,0 +1,21 @@
+.box {
+    margin-left: 40%
+}
+
+.right {
+    display: none;
+    color: crimson;
+}
+
+.bottom {
+    display: none;
+    color: crimson;
+}
+
+#pricearea {
+    margin-top: 10px;
+}
+
+#selectimg {
+    margin-top: 10px;
+}

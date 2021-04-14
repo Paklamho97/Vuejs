@@ -1,0 +1,214 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" href="./css/additempage.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-left: 30px; margin-top: 20px; margin-bottom: 20px">
+    <a class="navbar-brand" href="#">ECLT5830</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+
+            <a class="nav-link" href="/">Home Page</a>
+            <a class="nav-link" href="/items">Item Listing Page</a>
+
+        </div>
+    </div>
+</nav>
+
+<div id=addform>
+    <p>{{title}}</p>
+    <form method="post" action="/additem" id="form" style="margin-top: 20px" @submit="checkSubmit">
+        <div class="box">
+            <div class="form-group">
+                <label style="width: 55px">Title</label>
+                <input type="text" class="form-control" id="title" style="width: 200px; display: inline-block"  name="title" v-model="title">
+                <div style="display: inline-block" v-if="isLargeScreen()">
+                    <div class="right" v-bind:style="TitleErrorDisplay()">Please enter at least one character!</div>
+                </div>
+
+            </div>
+            <div v-if="!isLargeScreen()">
+                <div class="bottom" v-bind:style="TitleErrorDisplay()">Please enter at least one character!</div>
+            </div>
+
+        </div>
+        <div class="box">
+            <div class="form-group">
+                <label style="width: 55px">Price</label>
+                <input type="text" class="form-control" id="pricebox" style="width: 200px; display: inline-block" name="price" v-model="price">
+                <div style="display: inline-block" v-if="isLargeScreen()">
+                    <div class="right" v-bind:style="PriceErrorDisplay()">Please enter an integer between 0 and 1000000!</div>
+                </div>
+            </div>
+            <div v-if="!isLargeScreen()">
+                <div class="bottom" v-bind:style="PriceErrorDisplay()">Please enter an integer between 0 and 1000000!</div>
+            </div>
+
+        </div>
+
+        <div class="box">
+            <div>
+                <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Image:</label>
+                <select v-model="imageUrl" class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" name="imageUrl" style="width: 100px">
+                </select>
+                <div style="display: inline-block" v-if="isLargeScreen()">
+                    <div class="right" v-bind:style="ImgErrorDisplay()">Please select an image!</div>
+                </div>
+
+            </div>
+            <div v-if="!isLargeScreen()">
+                <div class="bottom" v-bind:style="ImgErrorDisplay()">Please select an image!</div>
+            </div>
+        </div>
+
+
+        <div style="margin-left: 40%; margin-top: 20px">
+            <button id="btn" class="btn btn-primary my-1">ok</button>
+        </div>
+
+
+    </form>
+</div>
+
+
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+
+
+    let app = new Vue({
+        el: '#addform',
+        data: {
+            title: '',
+            price: '',
+            titleerror: 0,
+            priceerror: 0,
+            imgerror: 0,
+            imageUrl: ''
+        },
+        methods: {
+            isLargeScreen: function () {
+                return document.documentElement.clientWidth>=992;
+            },
+            TitleisError: function(){
+                if(this.titleerror == 0){
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            },
+            PriceisError: function(){
+                if(this.priceerror == 0){
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            },
+            ImgisError: function(){
+                if(this.imgerror == 0){
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            },
+            TitleErrorDisplay: function () {
+                if(this.TitleisError()){
+                    return {display: 'inline-block'};
+                }
+                else{
+                    return;
+                }
+
+            },
+            PriceErrorDisplay: function () {
+                if(this.PriceisError()){
+                    return {display: 'inline-block'};
+                }
+                else{
+                    return;
+                }
+
+            },
+            ImgErrorDisplay: function () {
+                if(this.ImgisError()){
+                    return {display: 'inline-block'};
+                }
+                else{
+                    return;
+                }
+
+            },
+            checkSubmit: function (e) {
+                if(this.title!='' & Number.isInteger(parseInt(this.price))){
+                    this.titleerror = 0;
+                    this.priceerror = 0;
+                    this.PriceErrorDisplay();
+                    this.TitleErrorDisplay();
+                    if(this.imageUrl==''){
+                        this.imgerror = 1;
+                        this.ImgErrorDisplay();
+                        e.preventDefault();
+                        return;
+                    }
+                    if(this.imageUrl!=''){
+                        this.imgerror = 0;
+                    }
+                    alert("Add Item Successfully!")
+                }
+                else{
+                    if(this.title == ''){
+                        this.titleerror = 1;
+                        this.TitleErrorDisplay();
+                    }
+                    if(this.title != ''){
+                        this.titleerror = 0;
+                    }
+                    if(Number.isInteger(parseInt(this.price))==false){
+                        this.priceerror = 1;
+                        this.PriceErrorDisplay();
+                    }
+                    if(Number.isInteger(parseInt(this.price))){
+                        if(parseInt(this.price)>=0 & parseInt(this.price)<=1000000){
+                            this.priceerror=0;
+                        }
+                        else{
+                            this.priceerror=1;
+                        }
+
+                    }
+                    if(this.imageUrl==''){
+                        this.imgerror = 1;
+                        this.ImgErrorDisplay();
+                    }
+                    if(this.imageUrl!=''){
+                        this.imgerror = 0;
+                    }
+
+                    e.preventDefault();
+                }
+            }
+
+        }
+    });
+
+    let slt = document.querySelector("#inlineFormCustomSelectPref");
+    let str='<option selected value="">Choose...</option>';
+    for(let i = 1; i<=10; i++){
+        str += '<option>' + i + '.jpg' + '</option>'
+    }
+    slt.innerHTML=str
+
+
+</script>
